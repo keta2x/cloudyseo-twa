@@ -2577,7 +2577,10 @@ async function populateLeaderboard() {
     leaderboardContent.innerHTML = '<div class="loader-spinner" style="margin: 40px auto;"></div>';
     
     try {
-        const leaderboardData = await apiFetch('/api/v1/leaderboard');
+        // <<< ИЗМЕНЕНИЕ ЗДЕСЬ: Добавляем уникальный параметр к URL >>>
+        // `?_=${Date.now()}` делает URL уникальным при каждом вызове, обходя кеш браузера.
+        const leaderboardData = await apiFetch(`/api/v1/leaderboard?_=${Date.now()}`);
+        
         leaderboardContent.innerHTML = ''; // Очищаем спиннер
 
         if (!leaderboardData || leaderboardData.length === 0) {
@@ -2588,9 +2591,6 @@ async function populateLeaderboard() {
         leaderboardData.forEach(item => {
             const div = document.createElement('div');
             div.className = 'leaderboard-item';
-            
-            // <<< ИЗМЕНЕНИЕ ЗДЕСЬ >>>
-            // Убираем все обратные слеши из текста приза
             const cleanedPrizeName = item.prize_name.replace(/\\/g, ''); 
 
             div.innerHTML = `
@@ -2605,6 +2605,7 @@ async function populateLeaderboard() {
         leaderboardContent.innerHTML = `<p style="text-align: center; color: #ff6b6b;">Failed to load data.</p>`;
     }
 }
+
 
 // Функция для установки всех обработчиков событий для таблицы лидеров
 function setupLeaderboard() {
@@ -2737,5 +2738,6 @@ async function main() {
 }
 
 document.documentElement.style.setProperty('--ring-scale', WHEEL_GEOMETRY_CONFIG.outerRingScale);
+
 
 main();
