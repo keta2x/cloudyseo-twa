@@ -1068,7 +1068,7 @@ class Sector {
             emissiveIntensity: 0
         });
     
-        const fontSize = 11;
+        const fontSize = 10;
         const lineHeight = 19;
         const textRadius = LOGICAL_INNER_RADIUS + (LOGICAL_OUTER_RADIUS - LOGICAL_INNER_RADIUS) * 0.67;
     
@@ -2741,3 +2741,4 @@ document.documentElement.style.setProperty('--ring-scale', WHEEL_GEOMETRY_CONFIG
 
 
 main();
+
