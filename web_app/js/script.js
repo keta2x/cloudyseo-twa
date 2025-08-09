@@ -1975,7 +1975,7 @@ function setupPrizeNotification() {
         }
         #prize-notification-button {
             font-family: ${PRIZE_NOTIFICATION_CONFIG.fontFamily};
-            font-size: clamp(0.536rem, 2.024vw, 0.744rem);
+            font-size: clamp(0.402rem, 1.518vw, 0.558rem);
             font-weight: 800;
             text-transform: uppercase;
             padding: 3% 10%;
