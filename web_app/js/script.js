@@ -802,7 +802,7 @@ const PRIZE_NOTIFICATION_CONFIG = {
     prizeNameTop: '46%',
     prizeNameOffsetX: '14%',
     buttonBottom: '-15%',
-    prizeNameBottom: '20%',
+    prizeNameBottom: '25%',
 };
 
 let prizeNotificationOverlay = null;
@@ -2779,5 +2779,6 @@ async function main() {
 document.documentElement.style.setProperty('--ring-scale', WHEEL_GEOMETRY_CONFIG.outerRingScale);
 
 main();
+
 
 
