@@ -112,7 +112,7 @@ body {
       - 55vh: 55% от ВЫСОТЫ экрана. Это не даст колесу вылезти за пределы на "коротких" экранах.
       Ты можешь менять эти три значения, чтобы идеально настроить масштаб.
     */
-    --wheel-size: min(90vw, 380px, 80vh);
+    --wheel-size: min(90vw, 380px, 65vh);
     width: var(--wheel-size);
     height: var(--wheel-size);
 
@@ -1235,5 +1235,6 @@ body {
     color: #4DFFFF;
     text-shadow: 0 0 10px rgba(77, 255, 255, 0.8);
 }
+
 
 
