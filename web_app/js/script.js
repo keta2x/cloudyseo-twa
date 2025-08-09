@@ -1964,6 +1964,9 @@ function setupPrizeNotification() {
             text-shadow: 0 0 8px rgb(255, 183, 0), 0 0 16px rgb(255, 183, 0);
         }
         #prize-notification-prize-name {
+            display: flex;
+            align-items: center;
+            justify-content: center;
             font-size: clamp(1.4rem, 5vw, 2rem);
             font-weight: 900;
             line-height: 1.2;
@@ -2059,7 +2062,7 @@ function showPrizeNotification(prize, rarity) {
     prizeNotificationTitle.style.top = PRIZE_NOTIFICATION_CONFIG.titleTop;
     prizeNotificationTitle.style.transform = 'translateX(-50%)';
     prizeNotificationPrizeName.style.top = PRIZE_NOTIFICATION_CONFIG.prizeNameTop;
-    prizeNotificationPrizeName.style.transform = `translateX(calc(-50% + ${PRIZE_NOTIFICATION_CONFIG.prizeNameOffsetX}))`;
+    prizeNotificationPrizeName.style.transform = `translate(calc(-50% + ${PRIZE_NOTIFICATION_CONFIG.prizeNameOffsetX}), -50%)`;
     prizeNotificationButton.style.bottom = PRIZE_NOTIFICATION_CONFIG.buttonBottom;
     prizeNotificationButton.style.transform = 'translateX(-50%)';
 
