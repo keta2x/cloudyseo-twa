@@ -86,9 +86,20 @@ body {
     z-index: 1;
 }
 
-.layout-spacer {
-    flex-grow: 1; /* Самое главное правило. Занимает все доступное пространство */
-    min-height: 20px; /* Минимальная высота, чтобы на маленьких экранах не схлопывалось в ноль */
+/* +++ Стили для наших новых "пружин" +++ */
+.spacer-top, .spacer-bottom {
+    width: 100%;
+    flex-shrink: 0;
+}
+
+.spacer-top {
+    flex-grow: 2; /* Эта распорка будет в 2 раза больше нижней */
+    min-height: 20px;
+}
+
+.spacer-bottom {
+    flex-grow: 1; /* Эта распорка будет в 2 раза меньше верхней */
+    min-height: 20px;
 }
 
 /* Заголовок */
@@ -533,20 +544,19 @@ body {
 @keyframes light-twinkle { 0%, 100% { opacity: 0; transform: scale(0.5); } 50% { opacity: 1; transform: scale(1.2); } }
 
 /* Обертка для всей нижней части, чтобы правильно расположить ссылку */
-/* Обертка для всей нижней части (без изменений) */
 .stats-panel-wrapper {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 90%;
+    width: 100%;
     max-width: 400px;
     margin-top: auto;
-    margin-bottom: 12px; /* Этот отступ теперь до низа экрана */
+    margin-bottom: 50px;
     
-    /* +++ ADD: Магия для наложения +++ */
-    position: relative; /* Включаем z-index-контекст */
-    z-index: 10;        /* Поднимаем панель НАД колесом */
-    margin-top: clamp(-50px, -7vh, -25px);
+    /* --- DELETE: УДАЛЯЕМ ЭТИ СТРОКИ --- */
+    /* position: relative; */
+    /* z-index: 10; */
+    /* margin-top: clamp(-50px, -7vh, -25px); */
 }
 
 /* Основной контейнер панели */
@@ -1235,14 +1245,3 @@ body {
     color: #4DFFFF;
     text-shadow: 0 0 10px rgba(77, 255, 255, 0.8);
 }
-
-
-
-
-
-
-
-
-
-
-
