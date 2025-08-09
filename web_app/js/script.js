@@ -802,7 +802,7 @@ const PRIZE_NOTIFICATION_CONFIG = {
     prizeNameTop: '46%',
     prizeNameOffsetX: '14%',
     buttonBottom: '-15%',
-    prizeNameBottom: '38%',
+    prizeNameBottom: '10%',
 };
 
 let prizeNotificationOverlay = null;
@@ -1965,25 +1965,25 @@ function setupPrizeNotification() {
             text-shadow: 0 0 8px rgb(255, 183, 0), 0 0 16px rgb(255, 183, 0);
         }
         #prize-notification-prize-name {
-            
-            
             display: flex;
+            flex-direction: column; 
             align-items: center;
             justify-content: center;
-            
-            
             margin: auto 0;
-            
             overflow-wrap: break-word;
-
             font-size: clamp(1.4rem, 5vw, 2rem);
             font-weight: 900;
-            line-height: 1.2;
+            transition: text-shadow 0.3s ease;
+        }
+
+        #prize-notification-prize-name span {
+            display: block; 
+            line-height: 1.2; 
             background-clip: text;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            transition: text-shadow 0.3s ease;
         }
+
         #prize-notification-button {
             font-family: ${PRIZE_NOTIFICATION_CONFIG.fontFamily};
             font-size: clamp(0.402rem, 1.2vw, 0.558rem);
@@ -2055,6 +2055,8 @@ function showPrizeNotification(prize, rarity) {
     prizeNotificationTitle.textContent = i18n.prize_notification_title || 'ПОЗДРАВЛЯЕМ!';
 
     let prizeText = prize.localized_name || prize.name;
+    let lines = [prizeText]; // По умолчанию одна строка
+
     // Улучшенная логика переноса: ищет пробел, ближайший к середине
     if (prizeText && prizeText.length > 12) {
         let bestBreak = -1;
@@ -2064,10 +2066,23 @@ function showPrizeNotification(prize, rarity) {
         }
        
         if (bestBreak !== -1) {
-            prizeText = prizeText.substring(0, bestBreak) + '<br>' + prizeText.substring(bestBreak + 1);
+            // Если нашли где перенести, делим текст на две строки
+            lines = [
+                prizeText.substring(0, bestBreak),
+                prizeText.substring(bestBreak + 1)
+            ];
         }
     }
-    prizeNotificationPrizeName.innerHTML = prizeText;
+    
+    // <<< КЛЮЧЕВОЕ ИЗМЕНЕНИЕ: Оборачиваем каждую строку в span >>>
+    // и очищаем контейнер перед добавлением
+    prizeNotificationPrizeName.innerHTML = ''; 
+    lines.forEach(line => {
+        const span = document.createElement('span');
+        span.textContent = line;
+        prizeNotificationPrizeName.appendChild(span);
+    });
+    // <<< КОНЕЦ ИЗМЕНЕНИЯ >>>
 
     prizeNotificationButton.textContent = i18n.prize_notification_button || 'ЗАБРАТЬ';
     
@@ -2078,31 +2093,35 @@ function showPrizeNotification(prize, rarity) {
     prizeNotificationButton.style.bottom = PRIZE_NOTIFICATION_CONFIG.buttonBottom;
     prizeNotificationButton.style.transform = 'translateX(-50%)';
 
-    /* <<< НАЧАЛО КЛЮЧЕВЫХ ИЗМЕНЕНИЙ >>> */
-
-    // 1. Устанавливаем и верхнюю, и нижнюю границы для текста приза
+    // Устанавливаем и верхнюю, и нижнюю границы для текста приза
     prizeNotificationPrizeName.style.top = PRIZE_NOTIFICATION_CONFIG.prizeNameTop;
     prizeNotificationPrizeName.style.bottom = PRIZE_NOTIFICATION_CONFIG.prizeNameBottom;
 
-    // 2. Устанавливаем только горизонтальное смещение. 
-    // Вертикальное центрирование теперь делает CSS (`margin: auto 0;`)
+    // Устанавливаем только горизонтальное смещение. 
     prizeNotificationPrizeName.style.transform = `translateX(calc(-50% + ${PRIZE_NOTIFICATION_CONFIG.prizeNameOffsetX}))`;
-    
-    /* <<< КОНЕЦ КЛЮЧЕВЫХ ИЗМЕНЕНИЙ >>> */
 
+    // Сбрасываем стили для контейнера
+    prizeNotificationPrizeName.style.background = 'none';
+    prizeNotificationPrizeName.style.webkitBackgroundClip = 'initial';
+    prizeNotificationPrizeName.style.webkitTextFillColor = 'initial';
+    prizeNotificationPrizeName.style.color = 'initial';
+    prizeNotificationPrizeName.style.textShadow = 'none';
 
-    if (rarity === 'common') {
-        prizeNotificationPrizeName.style.background = 'none';
-        prizeNotificationPrizeName.style.webkitBackgroundClip = 'initial';
-        prizeNotificationPrizeName.style.webkitTextFillColor = 'initial';
-        prizeNotificationPrizeName.style.color = style.textColor;
-        prizeNotificationPrizeName.style.textShadow = '0 2px 4px rgba(0,0,0,0.5)';
-    } else {
-        prizeNotificationPrizeName.style.background = `linear-gradient(180deg, ${style.textHighlightColor} 40%, ${style.textColor} 100%)`;
-        prizeNotificationPrizeName.style.webkitBackgroundClip = 'text';
-        prizeNotificationPrizeName.style.webkitTextFillColor = 'transparent';
-        prizeNotificationPrizeName.style.textShadow = `0 3px 15px ${style.glow}`;
-    }
+    // Применяем стили к дочерним span'ам
+    prizeNotificationPrizeName.querySelectorAll('span').forEach(span => {
+        if (rarity === 'common') {
+            span.style.background = 'none';
+            span.style.webkitBackgroundClip = 'initial';
+            span.style.webkitTextFillColor = 'initial';
+            span.style.color = style.textColor;
+            span.style.textShadow = '0 2px 4px rgba(0,0,0,0.5)';
+        } else {
+            span.style.background = `linear-gradient(180deg, ${style.textHighlightColor} 40%, ${style.textColor} 100%)`;
+            span.style.webkitBackgroundClip = 'text';
+            span.style.webkitTextFillColor = 'transparent';
+            span.style.textShadow = `0 3px 15px ${style.glow}`;
+        }
+    });
 
     prizeNotificationButton.style.background = `linear-gradient(180deg, ${style.gradient[0]} 0%, ${style.gradient[1]} 100%)`;
     prizeNotificationButton.style.borderColor = style.textHighlightColor;
@@ -2779,10 +2798,3 @@ async function main() {
 document.documentElement.style.setProperty('--ring-scale', WHEEL_GEOMETRY_CONFIG.outerRingScale);
 
 main();
-
-
-
-
-
-
-
