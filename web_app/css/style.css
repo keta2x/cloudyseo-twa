@@ -101,7 +101,7 @@ body {
 /* Секция колеса */
 .wheel-section {
     position: relative;
-    /* margin-bottom: 25px; */
+    margin-bottom: 25px;
     flex-shrink: 0; 
     
     /* 
@@ -1235,6 +1235,7 @@ body {
     color: #4DFFFF;
     text-shadow: 0 0 10px rgba(77, 255, 255, 0.8);
 }
+
 
 
 
