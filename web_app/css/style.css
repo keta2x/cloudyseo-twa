@@ -541,7 +541,7 @@ body {
     width: 100%;
     max-width: 400px;
     margin-top: auto;
-    margin-bottom: 50px; /* Этот отступ теперь до низа экрана */
+    margin-bottom: 20px; /* Этот отступ теперь до низа экрана */
     
     /* +++ ADD: Магия для наложения +++ */
     position: relative; /* Включаем z-index-контекст */
@@ -1235,6 +1235,7 @@ body {
     color: #4DFFFF;
     text-shadow: 0 0 10px rgba(77, 255, 255, 0.8);
 }
+
 
 
 
