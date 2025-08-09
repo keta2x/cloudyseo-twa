@@ -802,7 +802,7 @@ const PRIZE_NOTIFICATION_CONFIG = {
     prizeNameTop: '46%',
     prizeNameOffsetX: '14%',
     buttonBottom: '-15%',
-    prizeNameBottom: '10%',
+    prizeNameBottom: '40%',
 };
 
 let prizeNotificationOverlay = null;
@@ -1971,7 +1971,7 @@ function setupPrizeNotification() {
             justify-content: center;
             margin: auto 0;
             overflow-wrap: break-word;
-            font-size: clamp(1.4rem, 5vw, 2rem);
+            font-size: clamp(0.98rem, 3.5vw, 1.4rem);
             font-weight: 900;
             transition: text-shadow 0.3s ease;
         }
