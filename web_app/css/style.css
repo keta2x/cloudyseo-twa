@@ -112,7 +112,7 @@ body {
 /* Секция колеса */
 .wheel-section {
     position: relative;
-    margin-bottom: -50px;
+    margin-bottom: -150px;
     flex-shrink: 0; 
     
     /* 
@@ -123,7 +123,7 @@ body {
       - 55vh: 55% от ВЫСОТЫ экрана. Это не даст колесу вылезти за пределы на "коротких" экранах.
       Ты можешь менять эти три значения, чтобы идеально настроить масштаб.
     */
-    --wheel-size: min(90vw, 380px, 62vh, 380px);
+    --wheel-size: min(88vw, 380px, 62vh, 380px);
     width: var(--wheel-size);
     height: var(--wheel-size);
 
@@ -1245,6 +1245,7 @@ body {
     color: #4DFFFF;
     text-shadow: 0 0 10px rgba(77, 255, 255, 0.8);
 }
+
 
 
 
