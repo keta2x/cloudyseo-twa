@@ -1975,7 +1975,7 @@ function setupPrizeNotification() {
         }
         #prize-notification-button {
             font-family: ${PRIZE_NOTIFICATION_CONFIG.fontFamily};
-            font-size: clamp(1rem, 3.8vw, 1.4rem);
+            font-size: clamp(0.67rem, 2.53vw, 0.93rem);
             font-weight: 800;
             text-transform: uppercase;
             padding: 3% 10%;
@@ -2739,6 +2739,4 @@ async function main() {
 
 document.documentElement.style.setProperty('--ring-scale', WHEEL_GEOMETRY_CONFIG.outerRingScale);
 
-
 main();
-
