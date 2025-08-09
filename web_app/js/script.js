@@ -2042,7 +2042,18 @@ function showPrizeNotification(prize, rarity) {
     const style = rarityStyles[rarity] || rarityStyles.common;
     
     prizeNotificationTitle.textContent = i18n.prize_notification_title || 'ПОЗДРАВЛЯЕМ!';
-    prizeNotificationPrizeName.textContent = prize.localized_name || prize.name;
+
+    let prizeText = prize.localized_name || prize.name;
+    if (prizeText && prizeText.length > 12) {
+        const lastSpaceIndex = prizeText.lastIndexOf(' ');
+        if (lastSpaceIndex !== -1 && lastSpaceIndex > 0) {
+            prizeText = prizeText.substring(0, lastSpaceIndex) + '<br>' + prizeText.substring(lastSpaceIndex + 1);
+        } else if (prizeText.length > 12) {
+            prizeText = prizeText.substring(0, 12) + '<br>' + prizeText.substring(12);
+        }
+    }
+    prizeNotificationPrizeName.innerHTML = prizeText;
+
     prizeNotificationButton.textContent = i18n.prize_notification_button || 'ЗАБРАТЬ';
     
     prizeNotificationTitle.style.top = PRIZE_NOTIFICATION_CONFIG.titleTop;
