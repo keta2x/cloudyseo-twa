@@ -2088,7 +2088,7 @@ function showPrizeNotification(prize, rarity) {
     
     // Позиционируем заголовок и кнопку как раньше
     prizeNotificationTitle.style.top = PRIZE_NOTIFICATION_CONFIG.titleTop;
-    prizeNotificationTitle.style.transform = 'translateX(-50%)';
+    prizeNotificationTitle.style.transform = `translateX(calc(-50% + ${PRIZE_NOTIFICATION_CONFIG.prizeNameOffsetX}))`;
     
     prizeNotificationButton.style.bottom = PRIZE_NOTIFICATION_CONFIG.buttonBottom;
     prizeNotificationButton.style.transform = 'translateX(-50%)';
