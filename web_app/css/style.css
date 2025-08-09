@@ -551,7 +551,7 @@ body {
     width: 100%;
     max-width: 400px;
     /* margin-top: auto; */
-    margin-bottom: 50px;
+    margin-bottom: -25px;
     
     /* --- DELETE: УДАЛЯЕМ ЭТИ СТРОКИ --- */
     /* position: relative; */
@@ -1245,6 +1245,7 @@ body {
     color: #4DFFFF;
     text-shadow: 0 0 10px rgba(77, 255, 255, 0.8);
 }
+
 
 
 
