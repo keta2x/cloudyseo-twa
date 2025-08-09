@@ -801,7 +801,8 @@ const PRIZE_NOTIFICATION_CONFIG = {
     titleTop: '28%',
     prizeNameTop: '46%',
     prizeNameOffsetX: '14%',
-    buttonBottom: '-15%'
+    buttonBottom: '-15%',
+    prizeNameBottom: '30%',
 };
 
 let prizeNotificationOverlay = null;
@@ -1964,9 +1965,17 @@ function setupPrizeNotification() {
             text-shadow: 0 0 8px rgb(255, 183, 0), 0 0 16px rgb(255, 183, 0);
         }
         #prize-notification-prize-name {
+            
+            
             display: flex;
             align-items: center;
             justify-content: center;
+            
+            
+            margin: auto 0;
+            
+            overflow-wrap: break-word;
+
             font-size: clamp(1.4rem, 5vw, 2rem);
             font-weight: 900;
             line-height: 1.2;
@@ -1974,7 +1983,6 @@ function setupPrizeNotification() {
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             transition: text-shadow 0.3s ease;
-            word-break: break-word;
         }
         #prize-notification-button {
             font-family: ${PRIZE_NOTIFICATION_CONFIG.fontFamily};
@@ -2047,24 +2055,41 @@ function showPrizeNotification(prize, rarity) {
     prizeNotificationTitle.textContent = i18n.prize_notification_title || 'ПОЗДРАВЛЯЕМ!';
 
     let prizeText = prize.localized_name || prize.name;
+    // Улучшенная логика переноса: ищет пробел, ближайший к середине
     if (prizeText && prizeText.length > 12) {
-        const lastSpaceIndex = prizeText.lastIndexOf(' ');
-        if (lastSpaceIndex !== -1 && lastSpaceIndex > 0) {
-            prizeText = prizeText.substring(0, lastSpaceIndex) + '<br>' + prizeText.substring(lastSpaceIndex + 1);
-        } else if (prizeText.length > 12) {
-            prizeText = prizeText.substring(0, 12) + '<br>' + prizeText.substring(12);
+        let bestBreak = -1;
+        // Только если есть пробелы, ищем лучший для переноса
+        if (prizeText.includes(' ')) {
+             bestBreak = prizeText.lastIndexOf(' ');
+        }
+       
+        if (bestBreak !== -1) {
+            prizeText = prizeText.substring(0, bestBreak) + '<br>' + prizeText.substring(bestBreak + 1);
         }
     }
     prizeNotificationPrizeName.innerHTML = prizeText;
 
     prizeNotificationButton.textContent = i18n.prize_notification_button || 'ЗАБРАТЬ';
     
+    // Позиционируем заголовок и кнопку как раньше
     prizeNotificationTitle.style.top = PRIZE_NOTIFICATION_CONFIG.titleTop;
     prizeNotificationTitle.style.transform = 'translateX(-50%)';
-    prizeNotificationPrizeName.style.top = PRIZE_NOTIFICATION_CONFIG.prizeNameTop;
-    prizeNotificationPrizeName.style.transform = `translate(calc(-50% + ${PRIZE_NOTIFICATION_CONFIG.prizeNameOffsetX}), -50%)`;
+    
     prizeNotificationButton.style.bottom = PRIZE_NOTIFICATION_CONFIG.buttonBottom;
     prizeNotificationButton.style.transform = 'translateX(-50%)';
+
+    /* <<< НАЧАЛО КЛЮЧЕВЫХ ИЗМЕНЕНИЙ >>> */
+
+    // 1. Устанавливаем и верхнюю, и нижнюю границы для текста приза
+    prizeNotificationPrizeName.style.top = PRIZE_NOTIFICATION_CONFIG.prizeNameTop;
+    prizeNotificationPrizeName.style.bottom = PRIZE_NOTIFICATION_CONFIG.prizeNameBottom;
+
+    // 2. Устанавливаем только горизонтальное смещение. 
+    // Вертикальное центрирование теперь делает CSS (`margin: auto 0;`)
+    prizeNotificationPrizeName.style.transform = `translateX(calc(-50% + ${PRIZE_NOTIFICATION_CONFIG.prizeNameOffsetX}))`;
+    
+    /* <<< КОНЕЦ КЛЮЧЕВЫХ ИЗМЕНЕНИЙ >>> */
+
 
     if (rarity === 'common') {
         prizeNotificationPrizeName.style.background = 'none';
