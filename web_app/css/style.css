@@ -93,12 +93,12 @@ body {
 }
 
 .spacer-top {
-    flex-grow: 2; /* Эта распорка будет в 2 раза больше нижней */
+    flex-grow: 2.5; /* Эта распорка будет в 2 раза больше нижней */
     min-height: 20px;
 }
 
 .spacer-bottom {
-    flex-grow: 1; /* Эта распорка будет в 2 раза меньше верхней */
+    flex-grow: 0.5; /* Эта распорка будет в 2 раза меньше верхней */
     min-height: 20px;
 }
 
@@ -555,7 +555,7 @@ body {
     
     /* --- DELETE: УДАЛЯЕМ ЭТИ СТРОКИ --- */
     /* position: relative; */
-    /* z-index: 10; */
+    z-index: 10; */
     /* margin-top: clamp(-50px, -7vh, -25px); */
 }
 
@@ -1245,4 +1245,5 @@ body {
     color: #4DFFFF;
     text-shadow: 0 0 10px rgba(77, 255, 255, 0.8);
 }
+
 
