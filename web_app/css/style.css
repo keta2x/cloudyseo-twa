@@ -80,9 +80,15 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-evenly;
+    /* --- DELETE --- */
+    /* justify-content: space-evenly; */ /* УДАЛЯЕМ ЭТО ПРАВИЛО */
     position: relative;
     z-index: 1;
+}
+
+.layout-spacer {
+    flex-grow: 1; /* Самое главное правило. Занимает все доступное пространство */
+    min-height: 20px; /* Минимальная высота, чтобы на маленьких экранах не схлопывалось в ноль */
 }
 
 /* Заголовок */
@@ -94,26 +100,26 @@ body {
 
 /* Секция колеса */
 .wheel-section {
-    position: absolute;
-    /* <<< ВОТ ЗДЕСЬ УПРАВЛЕНИЕ РАЗМЕРОМ >>> */
-    /* Измените это значение, чтобы сделать колесо больше или меньше */
-    /* vw - проценты от ширины видимой области, px - пиксели */
-    --wheel-size: min(350px, 100vw); /* Например, 80% ширины экрана, но не больше 300px */
+    /* --- DELETE --- */
+    /* position: absolute; */ /* УДАЛЯЕМ */
+    /* top: 45%; */        /* УДАЛЯЕМ */
+    /* left: 50%; */       /* УДАЛЯЕМ */
+    /* transform: translate(-50%, -50%); */ /* УДАЛЯЕМ */
 
+    /* +++ ADD +++ */
+    position: relative; /* Добавляем, чтобы внутренние абсолютные элементы (указатель, огни) работали как раньше */
+    margin-bottom: 25px; /* <-- ВОТ ОН, НАШ НОВЫЙ КОНТРОЛЛЕР ЗАЗОРА! Можешь менять это значение. */
+    flex-shrink: 0; /* Запрещаем колесу сжиматься, если не хватает места */
+    
+    /* Остальные свойства остаются */
+    --wheel-size: min(350px, 100vw); 
     width: var(--wheel-size);
     height: var(--wheel-size);
-    margin: 0;
-
-    /* <<< ВОТ ЗДЕСЬ УПРАВЛЕНИЕ ПОЛОЖЕНИЕМ >>> */
-    /* top: 50% - центр по вертикали. Можете изменить на 45% чтобы поднять выше и т.д. */
-    top: 45%; 
-    left: 50%;
-    transform: translate(-50%, -50%); /* Это центрирует элемент */
+    margin-top: 0; /* Убираем верхний margin, т.к. за него теперь отвечает распорка */
     transform-origin: center center;
 
     --ring-scale: 1.25;
     --ring-offset-y: 20px;
-
 }
 
 /* <<< ИЗМЕНЕНИЕ: Полностью заменяем стили для декорации >>> */
@@ -1223,5 +1229,4 @@ body {
 .leaderboard-prize-name[data-rarity="mythic"] {
     color: #4DFFFF;
     text-shadow: 0 0 10px rgba(77, 255, 255, 0.8);
-
 }
