@@ -809,7 +809,7 @@ const PRIZE_NOTIFICATION_CONFIG = {
     prizeTextTopBoundary: '40%',   // Верхняя граница зоны
     prizeTextBottomBoundary: '25%', // Нижняя граница зоны
     prizeTextLeftBoundary: '32%',   // Отступ слева, чтобы не заезжать на сундук
-    prizeTextRightBoundary: '10%'     // Отступ справа для симметрии
+    prizeTextRightBoundary: '8%'     // Отступ справа для симметрии
     // <<< КОНЕЦ ИЗМЕНЕНИЙ >>>
 };
 
