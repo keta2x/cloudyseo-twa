@@ -806,10 +806,10 @@ const PRIZE_NOTIFICATION_CONFIG = {
     buttonBottom: '-15%',
     
     // Настройки для области текста приза
-    prizeTextTopBoundary: '48%',   // Верхняя граница зоны
+    prizeTextTopBoundary: '40%',   // Верхняя граница зоны
     prizeTextBottomBoundary: '25%', // Нижняя граница зоны
-    prizeTextLeftBoundary: '38%',   // Отступ слева, чтобы не заезжать на сундук
-    prizeTextRightBoundary: '5%'     // Отступ справа для симметрии
+    prizeTextLeftBoundary: '32%',   // Отступ слева, чтобы не заезжать на сундук
+    prizeTextRightBoundary: '-5%'     // Отступ справа для симметрии
     // <<< КОНЕЦ ИЗМЕНЕНИЙ >>>
 };
 
