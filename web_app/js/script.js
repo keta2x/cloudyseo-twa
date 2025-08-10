@@ -793,16 +793,24 @@ let wheelContainer;
 let currentButtonScale = INITIAL_BUTTON_SCALE;
 let isButtonAnimating = false;
 const clock = new THREE.Clock();
-
+const DEBUG_BOUNDARIES = true;
 const PRIZE_NOTIFICATION_CONFIG = {
     assetUrl: 'img/prize_plank.png', 
     aspectRatio: '512 / 288', 
     fontFamily: "'Manrope', sans-serif",
+    
+    // <<< ИЗМЕНЕНИЯ: Новая система позиционирования >>>
+    // Настройки для заголовка и кнопки (центр всей плашки + легкое смещение)
     titleTop: '28%',
-    prizeNameTop: '46%',
-    prizeNameOffsetX: '14%',
+    titleOffsetX: '2.5%', // Небольшое смещение вправо для оптического центра
     buttonBottom: '-15%',
-    prizeNameBottom: '40%',
+    
+    // Настройки для области текста приза
+    prizeTextTopBoundary: '48%',   // Верхняя граница зоны
+    prizeTextBottomBoundary: '25%', // Нижняя граница зоны
+    prizeTextLeftBoundary: '38%',   // Отступ слева, чтобы не заезжать на сундук
+    prizeTextRightBoundary: '5%'     // Отступ справа для симметрии
+    // <<< КОНЕЦ ИЗМЕНЕНИЙ >>>
 };
 
 let prizeNotificationOverlay = null;
@@ -1958,7 +1966,8 @@ function setupPrizeNotification() {
             text-align: center;
         }
         #prize-notification-title {
-            font-size: clamp(1.1rem, 4vw, 1.6rem);
+            /* Позиционирование теперь полностью в JS, оставляем только стили текста */
+            font-size: clamp(1.2rem, 4.2vw, 1.7rem); /* <<< УВЕЛИЧЕН РАЗМЕР >>> */
             font-weight: 800;
             color: rgb(252,174,5);
             text-transform: uppercase;
@@ -1971,7 +1980,7 @@ function setupPrizeNotification() {
             justify-content: center;
             margin: auto 0;
             overflow-wrap: break-word;
-            font-size: clamp(0.98rem, 3.5vw, 1.4rem);
+            font-size: clamp(1.5rem, 5.5vw, 2.2rem);
             font-weight: 900;
             transition: text-shadow 0.3s ease;
         }
@@ -2047,6 +2056,13 @@ function setupPrizeNotification() {
 function showPrizeNotification(prize, rarity) {
     if (!prizeNotificationOverlay || !prize) return;
 
+    // <<< НОВОЕ: Визуализация границ для отладки >>>
+    if (DEBUG_BOUNDARIES) {
+        prizeNotificationPrizeName.style.border = '1px dashed red';
+    } else {
+        prizeNotificationPrizeName.style.border = 'none';
+    }
+
     document.body.style.overflowX = 'visible';
     document.documentElement.style.overflowX = 'visible';
 
@@ -2055,18 +2071,16 @@ function showPrizeNotification(prize, rarity) {
     prizeNotificationTitle.textContent = i18n.prize_notification_title || 'ПОЗДРАВЛЯЕМ!';
 
     let prizeText = prize.localized_name || prize.name;
-    let lines = [prizeText]; // По умолчанию одна строка
+    let lines = [prizeText]; 
 
-    // Улучшенная логика переноса: ищет пробел, ближайший к середине
+    // Логика переноса строк остается без изменений
     if (prizeText && prizeText.length > 12) {
         let bestBreak = -1;
-        // Только если есть пробелы, ищем лучший для переноса
         if (prizeText.includes(' ')) {
              bestBreak = prizeText.lastIndexOf(' ');
         }
        
         if (bestBreak !== -1) {
-            // Если нашли где перенести, делим текст на две строки
             lines = [
                 prizeText.substring(0, bestBreak),
                 prizeText.substring(bestBreak + 1)
@@ -2074,39 +2088,40 @@ function showPrizeNotification(prize, rarity) {
         }
     }
     
-    // <<< КЛЮЧЕВОЕ ИЗМЕНЕНИЕ: Оборачиваем каждую строку в span >>>
-    // и очищаем контейнер перед добавлением
     prizeNotificationPrizeName.innerHTML = ''; 
     lines.forEach(line => {
         const span = document.createElement('span');
         span.textContent = line;
         prizeNotificationPrizeName.appendChild(span);
     });
-    // <<< КОНЕЦ ИЗМЕНЕНИЯ >>>
 
     prizeNotificationButton.textContent = i18n.prize_notification_button || 'ЗАБРАТЬ';
     
-    // Позиционируем заголовок и кнопку как раньше
-    prizeNotificationTitle.style.top = PRIZE_NOTIFICATION_CONFIG.titleTop;
-    prizeNotificationTitle.style.transform = `translateX(calc(-50% + ${PRIZE_NOTIFICATION_CONFIG.prizeNameOffsetX}))`;
+    /* <<< НАЧАЛО КЛЮЧЕВЫХ ИЗМЕНЕНИЙ В ПОЗИЦИОНИРОВАНИИ >>> */
     
+    // 1. Позиционируем ЗАГОЛОВОК: по центру всей плашки + небольшое смещение
+    prizeNotificationTitle.style.top = PRIZE_NOTIFICATION_CONFIG.titleTop;
+    prizeNotificationTitle.style.transform = `translateX(calc(-50% + ${PRIZE_NOTIFICATION_CONFIG.titleOffsetX}))`;
+
+    // 2. Позиционируем КНОПКУ: по центру всей плашки
     prizeNotificationButton.style.bottom = PRIZE_NOTIFICATION_CONFIG.buttonBottom;
     prizeNotificationButton.style.transform = 'translateX(-50%)';
 
-    // Устанавливаем и верхнюю, и нижнюю границы для текста приза
-    prizeNotificationPrizeName.style.top = PRIZE_NOTIFICATION_CONFIG.prizeNameTop;
-    prizeNotificationPrizeName.style.bottom = PRIZE_NOTIFICATION_CONFIG.prizeNameBottom;
+    // 3. Позиционируем ТЕКСТ ПРИЗА внутри его границ
+    prizeNotificationPrizeName.style.top = PRIZE_NOTIFICATION_CONFIG.prizeTextTopBoundary;
+    prizeNotificationPrizeName.style.bottom = PRIZE_NOTIFICATION_CONFIG.prizeTextBottomBoundary;
+    prizeNotificationPrizeName.style.left = PRIZE_NOTIFICATION_CONFIG.prizeTextLeftBoundary;
+    // Рассчитываем ширину зоны
+    prizeNotificationPrizeName.style.width = `calc(100% - ${PRIZE_NOTIFICATION_CONFIG.prizeTextLeftBoundary} - ${PRIZE_NOTIFICATION_CONFIG.prizeTextRightBoundary})`;
+    // Убираем transform, он больше не нужен для позиционирования
+    prizeNotificationPrizeName.style.transform = 'none';
+    
+    /* <<< КОНЕЦ КЛЮЧЕВЫХ ИЗМЕНЕНИЙ В ПОЗИЦИОНИРОВАНИИ >>> */
 
-    // Устанавливаем только горизонтальное смещение. 
-    prizeNotificationPrizeName.style.transform = `translateX(calc(-50% + ${PRIZE_NOTIFICATION_CONFIG.prizeNameOffsetX}))`;
-
-    // Сбрасываем стили для контейнера
+    // Стилизация текста остается без изменений
     prizeNotificationPrizeName.style.background = 'none';
-    prizeNotificationPrizeName.style.webkitBackgroundClip = 'initial';
-    prizeNotificationPrizeName.style.webkitTextFillColor = 'initial';
-    prizeNotificationPrizeName.style.color = 'initial';
-    prizeNotificationPrizeName.style.textShadow = 'none';
-
+    // ... и так далее до конца функции ...
+    
     // Применяем стили к дочерним span'ам
     prizeNotificationPrizeName.querySelectorAll('span').forEach(span => {
         if (rarity === 'common') {
