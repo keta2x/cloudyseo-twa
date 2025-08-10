@@ -1,8 +1,3 @@
-// D:/python projects/seobot_renewed_9_11/seobot/bot\web_app\js\script.js
-
-// <<< НОВОЕ: ID администраторов, которые увидят дебаг-меню >>>
-const ADMIN_TELEGRAM_IDS = [329421959, 5259652179, 6835772441];
-
 const tg = window.Telegram.WebApp;
 const BACKEND_URL = 'https://cloudyspin.ddns.net';
 
@@ -2170,12 +2165,13 @@ async function finalizeWin() {
     if (!spinResultData) return;
 
     try {
-        await apiFetch('/api/v1/notify-win', {
-            method: 'POST',
-            body: JSON.stringify({ prize_data: spinResultData })
-        });
+        // Вызов apiFetch('/api/v1/notify-win', ...) был удален.
+        // Бэкенд теперь отправляет уведомление автоматически сразу после выигрыша,
+        // что предотвращает возможность отправки поддельных уведомлений клиентом.
     } catch (error) {
-        console.error("Failed to notify server of win:", error);
+        // Блок catch оставлен на случай, если в будущем здесь появится другая логика,
+        // которая может вызвать ошибку.
+        console.error("Error during win finalization:", error);
         tg.showAlert(i18n.alert_sync_error || "Could not save your prize. Please contact support.");
     } finally {
         wheelSpinning = false;
@@ -2745,7 +2741,9 @@ async function main() {
         spinClickSound = new Audio('/sfx/spin_click.mp3');
         spinClickSound.volume = sceneSettings.sound.volume * 0.64;
 
-        if (tg.initDataUnsafe && tg.initDataUnsafe.user && ADMIN_TELEGRAM_IDS.includes(tg.initDataUnsafe.user.id)) {
+        // Проверяем флаг is_admin, полученный с бэкенда.
+        // Это безопаснее, чем хранить ID на клиенте.
+        if (config.is_admin) {
             console.log("Пользователь - администратор. Инициализация дебаг-меню.");
             setupDebugMenu();
         }
