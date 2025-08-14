@@ -76,13 +76,7 @@ body {
     width: 100%;
     max-width: 480px; /* Keep max-width for overall layout */
     height: 100%;
-    
-    /* <<< ИЗМЕНЕНИЕ: Добавляем отступ сверху, чтобы было место для баннера и кнопок >>> */
-    padding-top: 70px; /* Было: var(--safe-area-top) */
-    padding-left: 20px;
-    padding-right: 20px;
-    padding-bottom: var(--safe-area-bottom);
-    
+    padding: var(--safe-area-top) 20px var(--safe-area-bottom);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -707,25 +701,15 @@ body {
     .stat-value { font-size: 25px; } 
 }
 
-/* <<< ЗАМЕНЯЕМ ВЕСЬ БЛОК СТИЛЕЙ ДЛЯ .happy-hour-banner >>> */
 .happy-hour-banner {
-    position: absolute; /* ВЫРЫВАЕМ ИЗ ПОТОКА */
-    top: calc(var(--safe-area-top, 20px) + 10px); /* Прижимаем к верху с учетом "чёлки" */
-    left: 50%; /* Центрируем по горизонтали */
-    transform: translateX(-50%); /* Точная центровка */
-    z-index: 500; /* Устанавливаем z-index, чтобы быть над фоном, но под модалками */
-
-    /* Остальные стили для внешнего вида остаются почти без изменений */
-    display: flex; /* уже было, оставляем */
+    display: flex;
     align-items: center;
     justify-content: center;
     gap: 10px;
-    
-    /* Ограничиваем ширину, чтобы не конфликтовать с кнопками по бокам */
-    width: calc(100% - 150px);
-    max-width: 280px;
-    
-    padding: 8px 12px; /* Чуть компактнее */
+    width: 100%;
+    max-width: 400px;
+    padding: 10px 15px;
+    margin-bottom: 5px; /* Отступ от колеса */
     border-radius: 16px;
     background: linear-gradient(45deg, #ff8c00, #ffd700);
     color: #000000;
@@ -902,22 +886,6 @@ body {
 }
 
 /* Общий стиль для верхних кнопок */
-.top-buttons-container {
-    position: absolute;
-    /* Прижимаем к верху с тем же отступом, что и баннер */
-    top: calc(var(--safe-area-top, 20px) + 10px);
-    /* Растягиваем на всю ширину для удобного позиционирования */
-    left: 20px;
-    right: 20px;
-    
-    z-index: 501; /* Чуть выше баннера, на всякий случай */
-    display: flex;
-    
-    /* Расставляем дочерние кнопки по краям */
-    justify-content: space-between;
-}
-
-/* Общий стиль для верхних кнопок */
 .top-button {
     width: 44px;
     height: 44px;
@@ -933,11 +901,6 @@ body {
     color: white;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.top-button:active {
-    transform: scale(0.9);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
 .top-button:active {
