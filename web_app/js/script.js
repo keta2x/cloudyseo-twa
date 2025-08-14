@@ -11,8 +11,7 @@ const spinButtonText = document.querySelector('#spin-button .button-text');
 const spinsCountEl = document.getElementById('spins-count');
 const pointsCountEl = document.getElementById('points-count');
 const textCanvas = document.getElementById('text-canvas');
-const happyHourBanner = document.getElementById('happy-hour-banner');
-const happyHourText = document.getElementById('happy-hour-text');
+const happyHourIndicator = document.getElementById('happy-hour-indicator');
 const spinsLabelEl = document.getElementById('spins-label');
 const pointsLabelEl = document.getElementById('points-label');
 const mainContent = document.querySelector('.main-content');
@@ -598,7 +597,6 @@ function applyLocalization() {
     document.title = i18n.title || 'CloudySpin';
     spinsLabelEl.textContent = i18n.spins_label || 'spins';
     pointsLabelEl.textContent = i18n.points_label || 'points';
-    happyHourText.textContent = i18n.happy_hour_active || 'Happy Hour is active!';
     
     if (pointsRateInfoEl) {
         pointsRateInfoEl.textContent = i18n.points_rate_info || '5 points = 1$';
@@ -2753,14 +2751,14 @@ async function main() {
         }
 
         if (config.is_happy_hour) {
-            console.log("Happy Hour is active, showing banner.");
-            if (happyHourBanner) {
-                happyHourBanner.style.display = 'block'; // Показываем баннер
+            console.log("Happy Hour is active, showing indicator.");
+            if (happyHourIndicator) {
+                happyHourIndicator.style.display = 'block'; // Показываем индикатор
             }
         } else {
             console.log("Happy Hour is not active.");
-            if (happyHourBanner) {
-                happyHourBanner.style.display = 'none'; // Скрываем баннер
+            if (happyHourIndicator) {
+                happyHourIndicator.style.display = 'none'; // Скрываем индикатор
             }
         }
 
