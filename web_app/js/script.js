@@ -1,3 +1,7 @@
+// D:/python projects/seobot_renewed_9_11/seobot/bot\web_app\js\script.js
+
+// <<< НОВОЕ: ID администраторов, которые увидят дебаг-меню >>>
+
 const tg = window.Telegram.WebApp;
 const BACKEND_URL = 'https://cloudyspin.ddns.net';
 
@@ -788,7 +792,7 @@ let wheelContainer;
 let currentButtonScale = INITIAL_BUTTON_SCALE;
 let isButtonAnimating = false;
 const clock = new THREE.Clock();
-const DEBUG_BOUNDARIES = true;
+const DEBUG_BOUNDARIES = false;
 const PRIZE_NOTIFICATION_CONFIG = {
     assetUrl: 'img/prize_plank.png', 
     aspectRatio: '512 / 288', 
@@ -2746,6 +2750,18 @@ async function main() {
         if (config.is_admin) {
             console.log("Пользователь - администратор. Инициализация дебаг-меню.");
             setupDebugMenu();
+        }
+
+        if (config.is_happy_hour) {
+            console.log("Happy Hour is active, showing banner.");
+            if (happyHourBanner) {
+                happyHourBanner.style.display = 'block'; // Показываем баннер
+            }
+        } else {
+            console.log("Happy Hour is not active.");
+            if (happyHourBanner) {
+                happyHourBanner.style.display = 'none'; // Скрываем баннер
+            }
         }
 
         await loadRarityTextures(textureLoader);
