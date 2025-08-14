@@ -701,52 +701,44 @@ body {
     .stat-value { font-size: 25px; } 
 }
 
-.happy-hour-banner {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
+/* Новый стиль для Happy Hour индикатора в stats-panel */
+.happy-hour-indicator {
     width: 100%;
-    max-width: 400px;
-    padding: 10px 15px;
-    margin-bottom: 5px; /* Отступ от колеса */
-    border-radius: 16px;
-    background: linear-gradient(45deg, #ff8c00, #ffd700);
-    color: #000000;
-    font-weight: 700;
-    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.4);
-    box-shadow: 0 4px 15px rgba(255, 165, 0, 0.4);
-    animation: happy-hour-pulse 2s infinite ease-in-out;
+    text-align: center;
+    margin-top: 8px;
+    padding: 6px 0;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+    animation: happy-hour-glow 2s infinite ease-in-out;
     transform-origin: center;
 }
 
-.happy-hour-banner .icon {
-    font-size: 18px;
-    animation: happy-hour-icon-spin 4s infinite linear;
-}
-
-.happy-hour-banner .text {
+.happy-hour-text {
     font-size: 14px;
+    font-weight: 800;
+    color: #000000;
+    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5);
     letter-spacing: 0.5px;
+    animation: happy-hour-text-shimmer 3s infinite ease-in-out;
 }
 
-@keyframes happy-hour-pulse {
+@keyframes happy-hour-glow {
     0%, 100% {
+        box-shadow: 0 0 15px rgba(255, 215, 0, 0.8), 0 0 30px rgba(255, 215, 0, 0.4);
         transform: scale(1);
-        box-shadow: 0 4px 15px rgba(255, 165, 0, 0.4);
     }
     50% {
-        transform: scale(1.03);
-        box-shadow: 0 6px 25px rgba(255, 165, 0, 0.6);
+        box-shadow: 0 0 25px rgba(255, 215, 0, 1), 0 0 50px rgba(255, 215, 0, 0.6);
+        transform: scale(1.02);
     }
 }
 
-@keyframes happy-hour-icon-spin {
-    from {
-        transform: rotate(0deg);
+@keyframes happy-hour-text-shimmer {
+    0%, 100% {
+        text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5);
     }
-    to {
-        transform: rotate(360deg);
+    50% {
+        text-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 1px 2px rgba(255, 255, 255, 0.5);
     }
 }
 
