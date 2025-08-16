@@ -1,7 +1,5 @@
 // D:/python projects/seobot_renewed_9_11/seobot/bot\web_app\js\script.js
 
-// <<< НОВОЕ: ID администраторов, которые увидят дебаг-меню >>>
-
 const tg = window.Telegram.WebApp;
 const BACKEND_URL = 'https://cloudyspin.ddns.net';
 
@@ -799,7 +797,7 @@ const PRIZE_NOTIFICATION_CONFIG = {
     // <<< ИЗМЕНЕНИЯ: Новая система позиционирования >>>
     // Настройки для заголовка и кнопки (центр всей плашки + легкое смещение)
     titleTop: '28%',
-    titleOffsetX: '2.5%', // Небольшое смещение вправо для оптического центра
+    titleOffsetX: '12%', // Небольшое смещение вправо для оптического центра
     buttonBottom: '-15%',
     
     // Настройки для области текста приза
@@ -2053,7 +2051,6 @@ function setupPrizeNotification() {
 function showPrizeNotification(prize, rarity) {
     if (!prizeNotificationOverlay || !prize) return;
 
-    // <<< НОВОЕ: Визуализация границ для отладки >>>
     if (DEBUG_BOUNDARIES) {
         prizeNotificationPrizeName.style.border = '1px dashed red';
     } else {
@@ -2067,23 +2064,15 @@ function showPrizeNotification(prize, rarity) {
     
     prizeNotificationTitle.textContent = i18n.prize_notification_title || 'ПОЗДРАВЛЯЕМ!';
 
-    let prizeText = prize.localized_name || prize.name;
-    let lines = [prizeText]; 
-
-    // Логика переноса строк остается без изменений
-    if (prizeText && prizeText.length > 12) {
-        let bestBreak = -1;
-        if (prizeText.includes(' ')) {
-             bestBreak = prizeText.lastIndexOf(' ');
-        }
-       
-        if (bestBreak !== -1) {
-            lines = [
-                prizeText.substring(0, bestBreak),
-                prizeText.substring(bestBreak + 1)
-            ];
-        }
-    }
+    // --- НАЧАЛО КЛЮЧЕВОГО ИЗМЕНЕНИЯ ---
+    // Используем новое поле 'notification_name' для плашки.
+    // Если его нет, для обратной совместимости используем 'localized_name'.
+    let prizeText = prize.notification_name || prize.localized_name || prize.name;
+    
+    // Теперь мы можем просто разделить по '\n', так как автоперенос больше не нужен.
+    // Если '\n' нет, то split вернет массив из одного элемента, что тоже правильно.
+    let lines = prizeText.split('\n');
+    // --- КОНЕЦ КЛЮЧЕВОГО ИЗМЕНЕНИЯ ---
     
     prizeNotificationPrizeName.innerHTML = ''; 
     lines.forEach(line => {
@@ -2094,32 +2083,19 @@ function showPrizeNotification(prize, rarity) {
 
     prizeNotificationButton.textContent = i18n.prize_notification_button || 'ЗАБРАТЬ';
     
-    /* <<< НАЧАЛО КЛЮЧЕВЫХ ИЗМЕНЕНИЙ В ПОЗИЦИОНИРОВАНИИ >>> */
-    
-    // 1. Позиционируем ЗАГОЛОВОК: по центру всей плашки + небольшое смещение
     prizeNotificationTitle.style.top = PRIZE_NOTIFICATION_CONFIG.titleTop;
     prizeNotificationTitle.style.transform = `translateX(calc(-50% + ${PRIZE_NOTIFICATION_CONFIG.titleOffsetX}))`;
-
-    // 2. Позиционируем КНОПКУ: по центру всей плашки
     prizeNotificationButton.style.bottom = PRIZE_NOTIFICATION_CONFIG.buttonBottom;
     prizeNotificationButton.style.transform = 'translateX(-50%)';
 
-    // 3. Позиционируем ТЕКСТ ПРИЗА внутри его границ
     prizeNotificationPrizeName.style.top = PRIZE_NOTIFICATION_CONFIG.prizeTextTopBoundary;
     prizeNotificationPrizeName.style.bottom = PRIZE_NOTIFICATION_CONFIG.prizeTextBottomBoundary;
     prizeNotificationPrizeName.style.left = PRIZE_NOTIFICATION_CONFIG.prizeTextLeftBoundary;
-    // Рассчитываем ширину зоны
     prizeNotificationPrizeName.style.width = `calc(100% - ${PRIZE_NOTIFICATION_CONFIG.prizeTextLeftBoundary} - ${PRIZE_NOTIFICATION_CONFIG.prizeTextRightBoundary})`;
-    // Убираем transform, он больше не нужен для позиционирования
     prizeNotificationPrizeName.style.transform = 'none';
     
-    /* <<< КОНЕЦ КЛЮЧЕВЫХ ИЗМЕНЕНИЙ В ПОЗИЦИОНИРОВАНИИ >>> */
-
-    // Стилизация текста остается без изменений
     prizeNotificationPrizeName.style.background = 'none';
-    // ... и так далее до конца функции ...
     
-    // Применяем стили к дочерним span'ам
     prizeNotificationPrizeName.querySelectorAll('span').forEach(span => {
         if (rarity === 'common') {
             span.style.background = 'none';
@@ -2825,4 +2801,3 @@ async function main() {
 document.documentElement.style.setProperty('--ring-scale', WHEEL_GEOMETRY_CONFIG.outerRingScale);
 
 main();
-
