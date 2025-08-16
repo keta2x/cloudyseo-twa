@@ -2825,3 +2825,4 @@ async function main() {
 document.documentElement.style.setProperty('--ring-scale', WHEEL_GEOMETRY_CONFIG.outerRingScale);
 
 main();
+
