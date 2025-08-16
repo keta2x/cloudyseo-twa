@@ -1975,7 +1975,7 @@ function setupPrizeNotification() {
             justify-content: center;
             margin: auto 0;
             overflow-wrap: break-word;
-            font-size: clamp(1.5rem, 5.5vw, 2.2rem);
+            font-size: clamp(1.125rem, 4.125vw, 1.65rem);
             font-weight: 900;
             transition: text-shadow 0.3s ease;
         }
