@@ -788,7 +788,7 @@ let wheelContainer;
 let currentButtonScale = INITIAL_BUTTON_SCALE;
 let isButtonAnimating = false;
 const clock = new THREE.Clock();
-const DEBUG_BOUNDARIES = false;
+const DEBUG_BOUNDARIES = true;
 const PRIZE_NOTIFICATION_CONFIG = {
     assetUrl: 'img/prize_plank.png', 
     aspectRatio: '512 / 288', 
@@ -2801,3 +2801,4 @@ async function main() {
 document.documentElement.style.setProperty('--ring-scale', WHEEL_GEOMETRY_CONFIG.outerRingScale);
 
 main();
+
